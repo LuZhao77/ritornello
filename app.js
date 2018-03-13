@@ -1,3 +1,6 @@
+require('./config');
+console.log('Environment:', CONFIG);
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -5,6 +8,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var models = require('./models');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
@@ -22,6 +26,22 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// database
+models.sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connected to SQL database:', CONFIG.db_name);
+  })
+  .catch((err) => {
+    console.error('Unable to connect to SQL database:', CONFIG.db_name, err);
+  });
+
+if (CONFIG.node_env === 'development') {
+  //creates table if they do not already exist
+  models.sequelize.sync({ force: false });
+}
+
+// routing
 app.use('/', index);
 app.use('/users', users);
 
