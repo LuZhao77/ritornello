@@ -1,4 +1,5 @@
 require('./config');
+require('./global_functions');
 console.log('Environment:', CONFIG);
 
 var express = require('express');

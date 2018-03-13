@@ -5,7 +5,8 @@
     },
     "extends": "eslint:recommended",
     "parserOptions": {
-        "sourceType": "module"
+        "sourceType": "module",
+        "ecmaVersion": 8
     },
     "rules": {
         "indent": [
@@ -26,11 +27,16 @@
         ],
         "no-unused-vars": [
             "error",
-            { "argsIgnorePattern": "next" }
+            { "argsIgnorePattern": "next|options|pw" }
         ],
         "no-console": "off"
     },
     "globals": {
-        "CONFIG": true
+        "CONFIG": true,
+        "to": true,
+        "pe": true,
+        "TE": true,
+        "ReE": true,
+        "ReS": true
     }
 }
