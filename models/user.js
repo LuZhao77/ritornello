@@ -1,4 +1,5 @@
 'use strict';
+const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const bcrypt_p = require('bcrypt-promise');
 const jwt = require('jsonwebtoken');
@@ -49,8 +50,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Model.prototype.toWeb = function (pw) {
-    let json = this.toJSON();
-    return json;
+    return this.toJSON();
   };
 
   return Model;
