@@ -1,8 +1,8 @@
-var fs        = require('fs');
-var path      = require('path');
+var fs = require('fs');
+var path = require('path');
 var Sequelize = require('sequelize');
-var basename  = path.basename(__filename);
-var db        = {};
+var basename = path.basename(__filename);
+var db = {};
 
 var sequelize = new Sequelize(
   CONFIG.db_name,
@@ -12,7 +12,10 @@ var sequelize = new Sequelize(
     host: CONFIG.db_host,
     dialect: CONFIG.db_dialect,
     port: CONFIG.db_port,
-    operatorsAliases: false
+    operatorsAliases: false,
+    define: {
+      underscored: true,
+    }
   }
 );
 
