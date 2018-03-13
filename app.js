@@ -8,11 +8,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var passport = require('passport');
 
 var models = require('./models');
-var index = require('./routes/index');
-var users = require('./routes/users');
-
+var v1 = require('./routes/v1');
 var app = express();
 
 // view engine setup
@@ -21,11 +20,20 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
 app.use(logger('dev'));
+
+// parse application/json
 app.use(bodyParser.json());
+// parse application/x-www-form-urlencoded
+// for easier testing with Postman or plain HTML forms
 app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// initialize passport with express
+app.use(passport.initialize());
 
 // database
 models.sequelize
@@ -58,9 +66,12 @@ app.use(function (req, res, next) {
 });
 
 // routing
-app.use('/', index);
+app.use('/v1', v1);
 
-app.use('/users', users);
+app.use('/', function (req, res) {
+  res.statusCode = 200;
+  res.json({ status: 'success', message: 'Welcome to Short Stay Management System', data: {}});
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
